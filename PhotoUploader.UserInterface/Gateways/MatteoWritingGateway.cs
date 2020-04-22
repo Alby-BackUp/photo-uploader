@@ -1,21 +1,23 @@
 using System;
-using System.Drawing;
-using System.IO;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using NpgsqlTypes;
+using PhotoUploader.UserInterface.Options;
 
 namespace PhotoUploader.UserInterface.Gateways
 {
     public class MatteoWritingGateway : IMatteoWritingGateway
     {
+        private readonly ConnectionStrings _connection;
 
-        public MatteoWritingGateway()
+        public MatteoWritingGateway(IOptions<ConnectionStrings> connection)
         {
+            _connection = connection.Value;
         }
 
         public void Write(string id, byte[] photo)
         {
-            using var conn = new NpgsqlConnection("User ID=roalby@matteo;Password=hsad#24SSDa;Host=matteo.postgres.database.azure.com;Port=5432;Database=postgres;SSL Mode=Require");
+            using var conn = new NpgsqlConnection(_connection.Matteo);
 
             const string sql = "update \"Service\" set \"Image\" = @Image Where \"Id\" = @Id";
 
@@ -23,12 +25,12 @@ namespace PhotoUploader.UserInterface.Gateways
 
             var param1 = command.CreateParameter();
             param1.ParameterName = "@Id";
-            param1.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Uuid;
+            param1.NpgsqlDbType = NpgsqlDbType.Uuid;
             param1.Value = new Guid(id);
 
             var param2 = command.CreateParameter();
             param2.ParameterName = "@Image";
-            param2.NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Bytea;
+            param2.NpgsqlDbType = NpgsqlDbType.Bytea;
             param2.Value = photo;
 
             command.Parameters.Add(param1);

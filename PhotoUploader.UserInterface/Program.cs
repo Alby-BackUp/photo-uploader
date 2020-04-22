@@ -19,9 +19,9 @@ namespace PhotoUploader.UserInterface
 
             var services = new ServiceCollection();
 
+            services.AddOptionsPattern();
             services.AddServices();
             services.AddForms();
-            services.AddOptionsPattern();
 
             using var serviceProvider = services.BuildServiceProvider();
 
