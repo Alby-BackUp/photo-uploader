@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PhotoUploader.UserInterface.Abstract;
 using PhotoUploader.UserInterface.Gateways;
+using PhotoUploader.UserInterface.Model;
 using PhotoUploader.UserInterface.Options;
 
 namespace PhotoUploader.UserInterface.Ioc
@@ -16,6 +18,9 @@ namespace PhotoUploader.UserInterface.Ioc
         public static void AddServices(this IServiceCollection services)
         {
             services.AddSingleton<IMatteoWritingGateway, MatteoWritingGateway>();
+            services.AddSingleton<IMatteoReadingGateway, MatteoReadingGateway>();
+
+            services.AddSingleton<State>();
         }
 
         public static void AddOptionsPattern(this IServiceCollection services)
