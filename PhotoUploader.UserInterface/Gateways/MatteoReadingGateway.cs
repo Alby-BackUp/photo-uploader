@@ -22,7 +22,7 @@ namespace PhotoUploader.UserInterface.Gateways
         {
             await using var conn = new NpgsqlConnection(_connection.Matteo);
 
-            const string sql = "select \"Id\", \"Name\" from \"Service\"";
+            const string sql = "select \"Id\", \"Name\" from \"Service\" order by \"Name\"";
 
             conn.Open();
 
@@ -37,7 +37,7 @@ namespace PhotoUploader.UserInterface.Gateways
         {
             await using var conn = new NpgsqlConnection(_connection.Matteo);
 
-            const string sql = "select  \"Id\", \"Name\", \"Extension\", \"ServiceId\" from \"Image\" where \"ServiceId\" = @Id";
+            const string sql = "select  \"Id\", \"Name\", \"Extension\", \"ServiceId\" from \"Image\" where \"ServiceId\" = @Id order by \"Name\"";
 
             await using var command = new NpgsqlCommand(sql, conn);
 
